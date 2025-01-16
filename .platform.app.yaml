@@ -1,0 +1,6 @@
+web:
+  locations:
+    "/":
+      root: "."
+      index: ["index.html"]
+      expires: 3600 # Cache static files for one hour
