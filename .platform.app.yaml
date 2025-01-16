@@ -1,6 +1,10 @@
+name: app
+type: "static"
+
 web:
   locations:
     "/":
       root: "."
       index: ["index.html"]
-      expires: 3600 # Cache static files for one hour
+      expires: 86400 # Cache static assets for 24 hours
+      scripts: false # Disable script execution for a static site
