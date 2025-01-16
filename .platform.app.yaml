@@ -1,47 +1,23 @@
+# The name of this app. Must be unique within a project.
 name: app
 
-# The type of the application to build.
-type: 'php:8.0'
+# The runtime the application uses. The 'type' key defines the base container
+# image that will be used to run the application. There is a separate base
+# container image for each primary language for the application,
+# in multiple versions. Check the PHP documentation
+# (https://docs.platform.sh/languages/php.html#supported-versions)
+# to find the supported versions for the 'php' type.
+type: 'php:8.4'
 
-# Indicate that we want to use composer2, (leave out if you want composer1)
-dependencies:
-    php: 
-        composer/composer: '^2'
-
-# The hooks that will be performed when the package is deployed.
-hooks:
-    build: |
-        set -e
-
-    deploy: |
-        set -e
-
-disk: 2048
-
-# The mounts that will be performed when the package is deployed.
+# The following block defines a single writable directory, 'web/uploads'
+# The 'source' specifies where the writable mount is. The 'local' source
+# indicates that the mount point will point to a local directory on the
+# application container. The 'source_path' specifies the subdirectory
+# from within the source that the mount should point at. 
 mounts:
-    # Because this directory is in the webroot, files here will be web-accessible.
-    'web/uploads':
-        source: local
-        source_path: uploads
-    # Files in this directory will not be web-accessible.
-    'private':
-        source: local
-        source_path: private
+  'web/uploads':
+    source: local
+    source_path: uploads
 
-
-# The configuration of app when it is exposed to the web.
-web:
-    locations:
-        "/":
-            # The public directory of the app, relative to its root.
-            root: "web"
-            # The front-controller script to send non-static requests to.
-            passthru: "/index.html"
-
-source:
-  operations:
-    auto-update:
-      command: |
-        curl -fsS https://raw.githubusercontent.com/platformsh/source-operations/main/setup.sh | { bash /dev/fd/3 sop-autoupdate; } 3<&0
-    
+# The size of the persistent disk of the application (in MB).
+disk: 2048
